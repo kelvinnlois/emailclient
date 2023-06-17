@@ -49,7 +49,25 @@ export class SigninComponent implements OnInit {
 
     // use AuthService to make signin request
     this.authService.signin(this.authForm.value)
-      .subscribe(()=>{});
+      .subscribe({
+        // 313. Showing Authentication Error
+        next: () => {
+
+        },
+        error: ({err}) => {
+          if(err.username || err.password) {
+            console.log("Credential error when signin.. ");
+            this.authForm.setErrors( {credentials: true} );
+          } else if(!err.status){
+            console.log("No connection signin error")
+            this.authForm.setErrors({ noConnection: true });
+          } else { // 294. Generic Error Handling
+            console.log("Unknown connection signin error")
+            this.authForm.setErrors({ unknownError: true});
+          }
+        }
+      }
+      );
 
 
   }
