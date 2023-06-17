@@ -1,0 +1,56 @@
+<h3>Create an Account</h3>
+
+<form [formGroup]="authForm" class="ui form" (ngSubmit)="onSubmit()">
+    <!-- <div class="field">
+        <label>Username</label>
+        <input formControlName="username"/>
+    </div> -->
+    <!-- Dubugging -->
+    <!-- <div>Errors around username: {{ authForm.controls.username.errors | json }}</div> -->
+
+    <!-- Using Reuseable Input -->
+    <app-input label="Username" [control]="$any(authForm.get('username'))" inputType="text"></app-input>
+
+
+
+    <!-- <div class="field">
+        <label>Password</label>
+        <input formControlName="password"/>
+    </div> -->
+    <!-- Dubugging -->
+    <!-- <div>Errors around password: {{ authForm.controls.password.errors | json }}</div> -->
+
+    <!-- Customizing Input Type -->
+    <app-input label="Password" [control]="$any(authForm.get('password'))" inputType="password"></app-input>
+
+
+    <!-- <div class="field">
+        <label>Password Confirmation</label>
+        <input formControlName="passwordCfm"/>
+    </div> -->
+    <!-- Dubugging -->
+    <!-- <div>Errors around passwordCfm: {{ authForm.controls.passwordCfm.errors | json }}</div> -->
+
+    <!-- Customizing Input Type -->
+    <app-input label="Password Confirmation" [control]="$any(authForm.get('passwordConfirmation'))" inputType="password"></app-input>
+    
+    <div class="ui red basic label" 
+        *ngIf="authForm.get('password')?.touched 
+        && authForm.get('passwordConfirmation')?.touched &&
+        authForm.errors">
+        <p *ngIf="authForm.errors?.['passwordNotMatch']">Password Confirmation Failed</p>
+
+        <!-- 293. Handling SignUp Errors -->
+        <p *ngIf="authForm.errors?.['noConnection']">No internet connection detected, sign up failed.</p>
+        <!-- 294. Generic Error Handling -->
+        <p *ngIf="authForm.errors?.['unknownError']">Failed to sign up.</p>
+    </div>
+    
+
+    <div>
+        <button class="ui submit button primary">Submit</button>
+    </div>
+
+        <!-- Dubugging Overall Form : Custom Validator-->
+    <div>Errors Password Match: {{authForm.errors | json}}</div>
+</form>
